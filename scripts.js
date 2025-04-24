@@ -192,8 +192,48 @@ class Step2Handler {
     }
 }
 class Step3Handler {
-    
+    constructor() {
+        this.userLevel = parseInt(DataManager.getData("userLevel")) || 2;
+        this.legalRep = DataManager.getData("legalRepresentative") || null;
 
+        this.repPanelContainer = document.getElementById("legalrep-panel-container");
+        this.addRepButton = document.querySelector('[data-togglelb="addlegalrep-lightbox"]');
+        this.lightbox = new FormLightbox(document.getElementById("addlegalrep-lightbox"));
+
+        this.repsQuestion = document.getElementById("s3q1-fieldset");
+        this.repsTableFieldset = document.getElementById("s3q2-fieldset");
+
+        this.repsTable = new TableObj("tb-add-rep");
+
+        this.renderInitialView();
+    }
+    renderInitialView() {
+        this.repPanelContainer.innerHTML = "";
+
+        // If userLevel 2 (no preloaded legal rep)
+        if (this.userLevel === 2) {
+            this.repsQuestion.classList.add("hidden");
+            this.repsTableFieldset.classList.add("hidden");
+        }
+
+        // If userLevel 3 and rep exists
+        if (this.userLevel === 3 && this.legalRep) {
+            this.renderPanel(this.legalRep, "Legal representative");
+            this.repsQuestion.classList.remove("hidden");
+           
+        }
+    
+    }
+    renderPanel(data, title) {
+        new PanelObj({
+            container: this.repPanelContainer,
+            title,
+            data,
+            editButton: false,
+            deleteButton: false,
+            labels: ["Name", "Mailing address", "Phone", "Alt Phone", "Role"]
+        });
+    }
    
 }
 class Step4Handler {
