@@ -417,7 +417,20 @@
                             <div class="required">Fields marked with asterisk (<span class="ast">*</span>) are required.</div>
                             <div id="legalrep-container">
                                 <div id="legalrep-panel-container"></div>
-
+                            <div class="alert" id="alert-norep">
+                                <div class="alert-warning">
+                                    <div class="line"></div>
+                                    <div>
+                                        <span class="material-icons">
+                                        report
+                                        </span>
+                                    </div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="alert-content">
+                                    Our records indicate that you are not a legal representative (for example, an executor, administrator, liquidator) for the deceased individual.<br>You must include the legal representative's information associated to this account before you can proceed with this request.
+                                </div>
+                            </div>
                             <div class="alert" id="alert-mailing">
                                 <div class="alert-info">
                                     <div class="line"></div>
@@ -471,36 +484,13 @@
                                     <tbody data-placeholder="You have not uploaded any representatives.">
                                     </tbody>
                                 </table>
+                                <button class="btn btn-secondary" data-toggleLB="addlegalrep-lightbox" type="button">
+                                    <span class="material-icons">add</span>Add legal representative information
+                                </button>
                             </fieldset>
 
                         </div><br>
-                        <div id="mailrecip-container"></div>
                            
-                            <div class="alert" id="alert-norep">
-                                <div class="alert-warning">
-                                    <div class="line"></div>
-                                    <div>
-                                        <span class="material-icons">
-                                        report
-                                        </span>
-                                    </div>
-                                    <div class="line"></div>
-                                </div>
-                                <div class="alert-content">
-                                    Our records show that you are not a legal representative for this account.<br>
-                                    In order to proceed you must either:
-                                    <br>
-                                    <ul>
-                                        <li>add information below for the legal representative associated to this account</li>
-                                        <strong>OR</strong>
-                                        <li>follow the steps on <a>Represent someone who died <span class="material-icons">open_in_new</span></a> in order to become a legal representative</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary" data-toggleLB="addlegalrep-lightbox" type="button">
-                                <span class="material-icons">add</span>
-                            </button>
-                            <br>
                             <button class="btn btn-secondary back-button" type="button">Back</button>
                             <button class="btn btn-primary next-button" type="button">Next</button>
                         </form>
