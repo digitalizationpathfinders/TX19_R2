@@ -120,6 +120,41 @@ header {
   
 
 }
+.h1-wrapper {
+  margin-bottom:22px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+.h1-wrapper h1 {
+  margin-bottom: 0;
+  border-bottom:0;
+  
+}
+.top-line {
+  width:100%;
+  display:flex; 
+  justify-content:space-between;
+  align-items: center;
+  border-bottom:1px solid #AF3C43;
+}
+.top-line a {
+  font-size:16px;
+  align-self: center;
+
+}
+.sub-line {
+  padding-top:4px;
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+}
+.date-stamp {
+  margin-top:0;
+  color:#888;
+  font-style:italic;
+}
 .header-content {
   display: flex;
   flex-flow: row wrap;
@@ -953,8 +988,13 @@ textarea {
   border:1px solid #EAEBED;
   border-radius: 4px;
 }
+.alert h4 {
+  margin-bottom:0;
+  margin-top:8px;
+}
 .alert h5 {
   margin-top:0;
+  margin-bottom:0;
   font-size:16px;
  }
 
@@ -976,6 +1016,7 @@ textarea {
  .alert-content {
   flex: 1; 
   padding-left: 16px; 
+  align-self:center;
  }
 
  .alert-warning span {

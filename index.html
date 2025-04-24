@@ -339,7 +339,7 @@
                                 </div>
                             </fieldset>
                             <fieldset id="s2q3-fieldset" class="hidden" data-radio-group required>
-                                <legend class="required-label"> Is there any real estate other than the principal residence?</legend>
+                                <legend class="required-label"> Is there any real estate other than the primary residence?</legend>
                                 <div class="group">
                                     <input type="radio" id="s2q3-op1" name="s2q3" value="Yes" data-toggle="s2q4-fieldset">
                                     <label for="s2q3-op1"></label>
@@ -404,7 +404,7 @@
                 </div>
             </section>
        
-            <section class="step active" id="step-3">
+            <section class="step" id="step-3">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -447,10 +447,10 @@
                             
                             
                             <fieldset id="legalrepinfo-fieldset">
-                                <label class="required-label" for="s3-reptel1">Telephone number</label>
-                                <input type="text" id="s3-reptel1" name="s3-reptel1">
-                                <label class="required-label" for="s3-reprole">Role</label>                        
-                                <select id="s3-reprole" name="s3-reprole">
+                                <label class="required-label" for="s3-lvl3-reptel">Telephone number</label>
+                                <input type="text" id="s3-lvl3-reptel" name="s3-lvl3-reptel">
+                                <label class="required-label" for="s3-lvl3-reprole">Role</label>                        
+                                <select id="s3-lvl3-reprole" name="s3-lvl3-reprole">
                                     <option value="" selected>(Select)</option>
                                     <option value="Executor/Executrix">Executor/Executrix</option>
                                     <option value="Administrator">Administrator</option>
@@ -481,7 +481,7 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody data-placeholder="You have not uploaded any representatives.">
+                                    <tbody data-placeholder="You have not added any representatives.">
                                     </tbody>
                                 </table>
                                 <button class="btn btn-secondary" data-toggleLB="addlegalrep-lightbox" type="button">
@@ -507,92 +507,41 @@
                                         <br>
                                         <div class="field-row">
                                             <div>
-                                                <label class="required-label" for="s3-repname">Name of representative</label>
-                                                <input type="text" id="s3-repname" name="s3-repname">
+                                                <label class="required-label" for="s3-repfname">First name of representative</label>
+                                                <input type="text" id="s3-repfname" name="s3-repfname">
                                             </div>
+                                            <div>
+                                                <label class="required-label" for="s3-replname">Last name of representative</label>
+                                                <input type="text" id="s3-replname" name="s3-replname">
+                                            </div>
+                                            
+                                        </div>
+                                                                   
+                                        <div class="field-row">
                                             <div>
                                                 <label class="required-label" for="s3-reprole">Role of representative</label>
                                                 <select id="s3-reprole-lb" name="s3-reprole">
                                                     <option value="" selected>(Select)</option>
-                                                    <option value="Executor/Executrix">Executor/Executrix</option>
+                                                    <option value="Executor">Executor</option>
                                                     <option value="Administrator">Administrator</option>
                                                     <option value="Liquidator">Liquidator</option>
                                                     <option value="Other">Other</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        
-                                        <fieldset id="s3-country-fieldset" data-radio-group>
-                                            <legend class="required-label"> Country of residence</legend>
-                                            <div class="group">
-                                                <input type="radio" id="s3-country-op1" name="s3-country" value="Canada" data-toggle="s3-canada-address">
-                                                <label for="s3-country-op1"></label>
-                                            </div>
-                                            <div class="group">
-                                                <input type="radio" id="s3-country-op2" name="s3-country" value="Outside of Canada" data-toggle="s3-international-address">
-                                                <label for="s3-country-op2"></label>
-                                            </div>
-                                            </fieldset>
-                                            <div id="s3-canada-address" data-inithidden class="hidden">
-                                                <div class="field-row">
-                                                    <div>
-                                                        <label class="required-label" for="s3-caddress">Mailing address</label>
-                                                        <input type="text" id="s3-caddress" name="s3-caddress">
-                                                    </div>
-                                                    <div>
-                                                        <label class="required-label" for="s3-repcity">City, town or community</label>
-                                                        <input type="text" id="s3-repcity" name="s3-repcity">
-                                                    </div>
-                                                </div>
-                                                <div class="field-row">
-                                                    <div>
-                                                        <label class="required-label" for="s3-repprov">Province</label>
-                                                        <select id="s3-repprov" name="s3-repprov">
-                                                            <option value="" selected>(Select)</option>
-                                                            <option value="Alberta">Alberta</option>
-                                                            <option value="British Columbia">British Columbia</option>
-                                                            <option value="Manitoba">Manitoba</option>
-                                                            <option value="New Brunswick">New Brunswick</option>
-                                                            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                                                            <option value="Northwest Territories">Northwest Territories</option>
-                                                            <option value="Nova Scotia">Nova Scotia</option>
-                                                            <option value="Nunavut">Nunavut</option>
-                                                            <option value="Ontario">Ontario</option>
-                                                            <option value="Prince Edward Island">Prince Edward Island</option>
-                                                            <option value="Quebec">Quebec</option>
-                                                            <option value="Saskatchewan">Saskatchewan</option>
-                                                            <option value="Yukon">Yukon</option>
-                                                        </select>
-                                                    </div>
-                                                    <div>
-                                                        <label class="required-label" for="s3-reppostcode">Postal code</label>
-                                                        <input type="text" id="s3-reppostcode" name="s3-reppostcode">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="s3-international-address" class="hidden">
-                                                <div class="field-row">
-
-                                                <div>
-                                                    <label class="required-label" for="s3-rep-iaddress">Mailing address</label>
-                                                    <input class="x2-height-input" type="text" id="s3-rep-iaddress" name="s3-rep-iaddress">
-                                                </div>
-                                                </div>
-                                            </div>                                      
-                                        <div class="field-row">
                                             <div>
-                                                <label class="required-label" for="s3-reptel1">Primary telephone number</label>
-                                                <input type="text" id="s3-reptel1" name="s3-reptel1">
+                                                <label class="required-label" for="s3-reptel">Telephone number</label>
+                                                <input type="text" id="s3-reptel" name="s3-reptel">
                                             </div>
-                                            <div>
-                                                <label class="optional-label" for="s3-reptel2">Alternate telephone number</label>
-                                                <input type="text" id="s3-reptel2" name="s3-reptel2">
-                                            </div>
+                                         
+                                        </div><br>
+                                        <div class="hidden" id="s3-level3-address">
+                                            <strong>The clearance certificate will be mailed to:</strong><br>
+                                            <span id="s3-deceased-address"></span>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="buttons">
-                                    <button class="btn-primary" data-submit type="button">Add representative</button>
+                                    <button class="btn-primary" data-submit type="button">Save</button>
                                     <button class="btn-tertiary" data-closebtn type="button">Cancel</button>
                                 </div>
                             </div>
@@ -601,9 +550,7 @@
                 </div>
             </section>
 
-           
-
-            <section class="step" id="step-4">
+            <section class="step active" id="step-4">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -613,37 +560,68 @@
                 <div class="step-content">
                     <div class="container">
 
-                    <form id="step-5-form">
+                    <form id="step-4-form">
                         <div class="required">Fields marked with asterisk (<span class="ast">*</span>) are required.</div>
                         <br>
+                        <button type="button" class="accordion">Types of documents you should provide </button>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><strong>Taxpayer’s will:</strong> a detailed list and description of the assets that were owned by the deceased individual on the date of death, including:
+                                    <ul>
+                                        <li>If no will exists, an official document that names the legal representative</li>
+                                    </ul>
+                                </li>
+                                <li><strong>List of assets:</strong> a complete and signed copy of the will, including any codicils, renunciations, disclaimers, and probate documents if applicable
+                                    <ul>
+                                        <li>All assets that were held jointly</li>
+                                        <li>All registered retirement savings plans (RRSP) and registered retirement income funds (including those with a named or designated beneficiary)</li>
+                                        <li>The adjusted cost base (ACB) and fair market value (FMV) at the date of distribution by the estate for all assets</li>
+                                        <li>Total value of the estate’s assets</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Distribution of estate’s assets:</strong> a detailed statement of distribution of the estate’s assets to date
+                                    <ul>
+                                        <li>A statement of proposed distribution for any holdback or residual amount/property</li>
+                                        <li>A list of the names, addresses, and tax identification numbers, such as social insurance numbers, of any beneficiaries of property other than cash</li>
+                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                            <br>
+                            <p>If you have already submitted any of the above documents, you do not need to re-submit them. If you submitted electronically, you will be asked to provide the case or reference number.</p>
+                        </div>
                         <fieldset id="s4q1-fieldset" required>
                             <legend class="required-label">
-                                Have you previously submitted any of the following documents?
+                                Have you already submitted documents to support your request?
                             </legend>
                             <div class="group">
-                                <input type="checkbox" id="s4q1-op1" name="s4q1" value="A complete and signed copy of the taxpayer’s will">
+                                <input type="radio" id="s4q1-op1" name="s4q1" value="Yes" data-toggle="s4q2-fieldset">
                                 <label for="s4q1-op1"></label>
                             </div>
                             <div class="group">
-                                <input type="checkbox" id="s4q1-op2" name="s4q1" value="A detailed list of the assets that were owned by the deceased at the date of death">
+                                <input type="radio" id="s4q1-op2" name="s4q1" value="No">
                                 <label for="s4q1-op2"></label>
                             </div>
+                        </fieldset>
+                        <fieldset class="hidden" id="s4q2-fieldset" required>
+                            <legend class="required-label">
+                                How were the documents submitted?</legend>
                             <div class="group">
-                                <input type="checkbox" id="s4q1-op3" name="s4q1" value="A detailed statement of assets being distributed to beneficiaries">
-                                <label for="s4q1-op3"></label>
+                                <input type="radio" id="s4q2-op1" name="s4q2" value="Mail or fax" data-toggle="s4q4-fieldset">
+                                <label for="s4q2-op1"></label>
                             </div>
                             <div class="group">
-                                <input type="checkbox" id="s4q1-op4" name="s4q1" value="None of the above">
-                                <label for="s4q1-op4"></label>
+                                <input type="radio" id="s4q2-op2" name="s4q2" value="Electronically" data-toggle="s4q3-fieldset,s4q4-fieldset">
+                                <label for="s4q2-op2"></label>
                             </div>
                         </fieldset>
-                        <fieldset id="s4q2-fieldset" required>
-                            <label for="s4q2-field">Provide the reference/case number(s) associated to your submission (if applicable)</label>
+                        <fieldset class="hidden" id="s4q3-fieldset" required>
+                            <label for="s4q3-field">Provide the reference/case number(s) associated to your submission</label>
                             <span>Separate reference/case numbers using a comma.</span><br>
-                            <input class="half-width" type="text" id="s4q2-field" name="s4q2">
+                            <input class="half-width" type="text" id="s4q3-field" name="s4q3">
                         </fieldset>
-                        <fieldset id="s4q3-fieldset" required>
-                            <label for="s4q3-field">Submit documents</label>
+                        <fieldset class="hidden" id="s4q4-fieldset" required>
+                            <legend class="required-label" for="s4q3-field">Upload documents to support your request</legend>
                             <span>Using the list above, attach any documents that have not yet been submitted.</span><br>
                             <table id="tb-upload-doc" class="table dynamic-table" cellpadding="0" cellspacing="0" required>
                                 <thead>
@@ -715,7 +693,7 @@
                 </div>
             </section>
 
-            <section class="step" id="step-6">
+            <section class="step" id="step-5">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>

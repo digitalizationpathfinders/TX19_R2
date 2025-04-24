@@ -109,12 +109,16 @@ class Stepper {
                 }
             });
         }
-    
-        // If on Step 5, also store uploaded documents
-        if (stepNum === 5) {
-            let step5Handler = this.stepHandlers[stepNum]; 
-            if (step5Handler && step5Handler.documentsTable) {
-                dataObj["uploadedDocuments"] = step5Handler.documentsTable.rows;
+        if (stepNum === 3) {
+            const handler = this.stepHandlers[stepNum];
+            if (handler instanceof Step3Handler && handler.userLevel === 3 && handler.legalReps.length === 1) {
+                handler.updateSingleLevel3Rep();
+            }
+        }
+        if (stepNum === 4) {
+            let step4Handler = this.stepHandlers[stepNum]; 
+            if (step4Handler && step4Handler.documentsTable) {
+                dataObj["uploadedDocuments"] = step4Handler.documentsTable.rows;
             }
         }
     
@@ -194,36 +198,138 @@ class Step2Handler {
 class Step3Handler {
     constructor() {
         this.userLevel = parseInt(DataManager.getData("userLevel")) || 2;
-        this.legalRep = DataManager.getData("legalRepresentative") || null;
+        this.legalReps = DataManager.getData("legalReps") || [];
+        this.deceasedAddress = DataManager.getData("deceasedInfo").address;
+
 
         this.repPanelContainer = document.getElementById("legalrep-panel-container");
         this.addRepButton = document.querySelector('[data-togglelb="addlegalrep-lightbox"]');
         this.lightbox = new FormLightbox(document.getElementById("addlegalrep-lightbox"));
 
+        this.noRepsAlert = document.getElementById("alert-norep");
+        this.mailingAlert = document.getElementById("alert-mailing");
         this.repsQuestion = document.getElementById("s3q1-fieldset");
         this.repsTableFieldset = document.getElementById("s3q2-fieldset");
+        this.legalRepInfoFieldset = document.getElementById("legalrepinfo-fieldset");
+        this.legalRepAddressLBDiv = document.getElementById("s3-level3-address");
+        this.legalRepAddressLBSpan = document.getElementById("s3-deceased-address");
 
         this.repsTable = new TableObj("tb-add-rep");
+        this.firstRepAdded = false;
 
         this.renderInitialView();
+        this.setupListeners();
     }
     renderInitialView() {
+        
         this.repPanelContainer.innerHTML = "";
 
         // If userLevel 2 (no preloaded legal rep)
         if (this.userLevel === 2) {
             this.repsQuestion.classList.add("hidden");
-            this.repsTableFieldset.classList.add("hidden");
+            this.repsTableFieldset.classList.remove("hidden");
+            this.repsTableFieldset.getElementsByTagName('label')[0].innerHTML = "Provide information for the legal representative(s) of the deceased individual.";
+            this.mailingAlert.classList.add("hidden");
+            this.legalRepInfoFieldset.classList.add("hidden");
+            this.legalRepAddressLBDiv.classList.remove("hidden");
+            this.legalRepAddressLBSpan.innerHTML = this.deceasedAddress;
         }
 
         // If userLevel 3 and rep exists
-        if (this.userLevel === 3 && this.legalRep) {
-            this.renderPanel(this.legalRep, "Legal representative");
+        if (this.userLevel === 3) {
+           
+            this.firstRepAdded = true;
+            this.renderPanel(this.legalReps[0], "Legal representative");
             this.repsQuestion.classList.remove("hidden");
+            this.noRepsAlert.classList.add("hidden");
            
         }
     
     }
+    setupListeners() {
+        document.addEventListener("lightboxSubmitted", (event) => {
+            if (event.detail.lightboxId === "addlegalrep-lightbox") {
+                this.handleFormSubmit(event.detail.formData);
+            }
+        });
+
+        document.addEventListener("editRowEvent", (e) => {
+            if (e.detail.tableID === "tb-add-rep") {
+                this.lightbox.setEditIndex(e.detail.index);
+                this.lightbox.populateForm(e.detail.rowData);
+                this.lightbox.openLightbox();
+
+                if (this.userLevel === 2 && parseInt(e.detail.index) === 0) {
+                    this.legalRepAddressLBDiv.classList.remove("hidden");
+                } else {
+                    this.legalRepAddressLBDiv.classList.add("hidden");
+                }
+            
+            }
+        });
+
+        document.addEventListener("rowDeleted", () => {
+            DataManager.saveData("legalReps", this.repsTable.rows);
+
+            if (this.userLevel === 2 && this.repsTable.rows.length === 0) {
+                this.legalRepAddressLBDiv.classList.remove("hidden");
+            }
+        });
+
+    }
+    
+
+    handleFormSubmit(formData) {
+        const editIndex = this.lightbox.getEditIndex();
+        const newRep = this.getNewRepFromForm(formData);
+    
+        this.updateRepsTable(newRep, editIndex);
+        this.handlePostRepAddUI();
+      
+    }
+    getNewRepFromForm(formData) {
+        const fullName = `${formData["s3-repfname"]} ${formData["s3-replname"]}`.trim();
+        return {
+            name: fullName,
+            role: formData["s3-reprole"],
+            phone: formData["s3-reptel"]
+        };
+    }
+    updateSingleLevel3Rep() {
+        const phoneInput = document.querySelector('#s3-lvl3-reptel');
+        const roleSelect = document.querySelector('#s3-lvl3-reprole');
+    
+        if (!phoneInput || !roleSelect) return;
+    
+        const phone = phoneInput.value.trim();
+        const role = roleSelect.value;
+        console.log(phone)
+    
+        this.legalReps[0].phone = phone || null;
+        this.legalReps[0].role = role || null;
+    
+        DataManager.saveData("legalReps", this.legalReps);
+    }
+
+    updateRepsTable(newRep, editIndex) {
+        if (editIndex !== null && editIndex !== undefined && editIndex !== "") {
+            this.legalReps[editIndex] = newRep;
+            this.lightbox.clearEditIndex();
+            this.repsTable.rows[editIndex] = { name: newRep.name, role: newRep.role };
+            this.repsTable.refreshTable();
+        } else {
+            this.legalReps.push(newRep);
+            this.repsTable.addRow({ name: newRep.name, role: newRep.role });
+        }
+        DataManager.saveData("legalReps", this.legalReps);
+    }
+    handlePostRepAddUI() {
+        if (this.userLevel === 2 && this.legalReps.length > 0) {
+            this.noRepsAlert.classList.add("hidden");
+            this.legalRepAddressLBDiv.classList.add("hidden");
+        }
+    }
+
     renderPanel(data, title) {
         new PanelObj({
             container: this.repPanelContainer,
@@ -231,7 +337,7 @@ class Step3Handler {
             data,
             editButton: false,
             deleteButton: false,
-            labels: ["Name", "Mailing address", "Phone", "Alt Phone", "Role"]
+            labels: ["Name", "Mailing address"]
         });
     }
    
@@ -383,8 +489,7 @@ class Step5Handler {
             { stepNum: 1, title: "Pre-screening", storageKey: "stepData_1" },
             { stepNum: 2, title: "Deceased individual’s information on file", storageKey: "deceasedInfo", labels: ["Name of deceased", "Social insurance number (SIN)", "Date of death"]  },
             { stepNum: 3, title: "Representative's information", storageKey: "stepData_3" },
-            { stepNum: 4, title: "Tax return information", storageKey: "stepData_4" },
-            { stepNum: 5, title: "Supporting documentation", storageKey: "stepData_5" },
+            { stepNum: 4, title: "Supporting documentation", storageKey: "stepData_4" },
         ];
     
         steps.forEach(({ stepNum, title, storageKey, labels }) => {
@@ -396,27 +501,18 @@ class Step5Handler {
            let subTableData = null; // Placeholder for subtable
 
            if (stepNum === 3) {
-               let legalRep = DataManager.getData("legalRepresentative");
-               let mailRecipients = DataManager.getData("mailRecipients") || [];
+               let legalReps = DataManager.getData("legalReps") || [];
 
-               // Add Legal Representative first
-               if (legalRep) {
-                   formattedData["Legal Representative Name"] = legalRep.name || "N/A";
-                   formattedData["Mailing Address"] = legalRep.address || "N/A";
-                   formattedData["Role"] = legalRep.role || "N/A";
-                   formattedData["Telephone Number"] = legalRep.phone || "N/A";
-                   formattedData["Alternate Telephone Number"] = legalRep.altPhone || "N/A";
-               }
-               mailRecipients.forEach((recipient, index) => {
-                   formattedData[`Mail Recipient ${index + 1} Name`] = recipient.name || "N/A";
-                   formattedData[`Mail Recipient ${index + 1} Mailing Address`] = recipient.address || "N/A";
-                   formattedData[`Mail Recipient ${index + 1} Telephone Number`] = recipient.phone || "N/A";
-                   if (recipient.altPhone && recipient.altPhone.trim() !== "") {
-                       formattedData[`Mail Recipient ${index + 1} Alternate Telephone Number`] = recipient.altPhone;
-                   }
+            
+               legalReps.forEach((rep, index) => {
+                formattedData["Legal Representative Name"] = rep.name || "N/A";
+                formattedData["Mailing Address"] = rep.address || "N/A";
+                formattedData["Role"] = rep.role || "N/A";
+                formattedData["Telephone Number"] = rep.phone || "N/A";
+
                });
            }
-           else if (stepNum === 5 && data["uploadedDocuments"]) {
+           else if (stepNum === 4 && data["uploadedDocuments"]) {
                subTableData = {
                    title: "Attachments",
                    headers: ["Name", "Description", "File Size"],
@@ -983,11 +1079,17 @@ document.addEventListener('DOMContentLoaded', () => {
         DataManager.saveData("deceasedInfo", taskData.deceasedInfo);
         DataManager.saveData("userLevel", taskData.userLevel);
 
-        if (taskData.legalRepresentative) {
-            DataManager.saveData("legalRepresentative", taskData.legalRepresentative);
-
-            
+        if (taskData.userLevel === 3 && taskData.deceasedInfo?.address) {
+            DataManager.saveData("legalReps", [
+                {
+                    name: taskData.racUserName,
+                    address: taskData.deceasedInfo.address,
+                    role: null, // Default or populate as needed
+                    phone: null
+                }
+            ]);
         }
+        
         if (taskData.racUserName) {
             DataManager.saveData("racUserName", taskData.racUserName);
             document.getElementById("task-rep-name").textContent = taskData.racUserName;   
