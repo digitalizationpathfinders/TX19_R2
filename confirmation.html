@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Application Title</title>
+        <link rel="stylesheet" href="styles/base.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-content">
+                <div class="brand">
+                    <img src="https://www.canada.ca/etc/designs/canada/wet-boew/assets/sig-blk-en.svg" alt="Government of Canada">
+                </div>
+                <a href="#" class="language-switch">Français</a>
+            </div>
+            <div class="portal-header">
+                <div class="content">
+                <div class="portal-branding">
+                    <div>
+                        <span class="heading">Canada Revenue Agency</span>
+                        <br>Represent a Client
+                    </div>
+                    <div>
+                        <span class="inline-flex" id="task-accountuser-type">
+                            <span class="material-icons">person</span>Individual client
+                        </span><BR>
+                        <span class="uppercase" id="task-accountuser-name">
+                        </span>
+                    </div>
+                    <div>
+                        <span class="material-icons">check_circle</span>Client has full My Account access.</div>
+                </div>
+                <div class="inline-flex">
+                    <span class="material-icons">account_circle</span>
+                    <span class="uppercase" id="task-rep-name"></span>
+                </div>
+                </div>
+            </div>
+        </header>
+        <div class="confirmation-wrapper">
+            <h1>TX19 - Confirmation</h1>
+            <div class="alert">
+                <div class="alert-success">
+                    <div class="line"></div>
+                    <div><span class="material-icons">
+                        check_circle
+                        </span>
+                    </div>
+                    <div class="line"></div>
+                </div>
+                <div class="alert-content">
+                    <h4>Success</h4>
+                Your request for a clearance certificate has been submitted. Keep a copy of this page for your records.
+                <br><br>
+                Case/reference number: <strong>ABCDEFG</strong>
+                <br>Date submitted: <strong>YYYY-MM-DD</strong>
+                <br><br>
+                If you need to submit any additional documents  relating to this request, you must submit them using your case/reference number.
+                    
+                </div>
+            </div>
+            <h3>Important information</h3>
+            This clearance certificate covers income earned up to the date of death. If you require an estate trust final clearance, you must also file a clearance certificate through My Trust Account within Represent a Client.<br><br>
+        
+            <button class="btn btn-primary next-button" type="button" onclick="returnToOverview()">Return to Overview</button>
+        </div>
+    </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let taskData = sessionStorage.getItem("selectedTask");
+            console.log(taskData)
+
+            if (!taskData) {
+                // If user somehow lands here without choosing a task, redirect them back
+                window.location.href = "chooser.html";
+            } else {
+                taskData = JSON.parse(taskData);
+                console.log("Loaded Task Data:", taskData);
+
+
+                if (taskData.racUserName) {
+                    document.getElementById("task-rep-name").textContent = taskData.racUserName;   
+                }
+                else {
+                    document.getElementById("task-rep-name").textContent = "REPRESENTATIVE NAME";
+                }
+
+                if (taskData.deceasedInfo && taskData.deceasedInfo.name) {
+                    document.getElementById("task-accountuser-name").textContent = taskData.deceasedInfo.name;
+                }
+            }
+        });
+        function returnToOverview (){
+            window.location.href = "chooser.html";
+            sessionStorage.clear();
+        }
+
+        </script>
+        
+
+</html>
+

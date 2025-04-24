@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Task</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select a Task</h2>
+    <button onclick="chooseTask(1)">Task 1</button>
+    <button onclick="chooseTask(2)">Task 2</button>
+    <button onclick="chooseTask(3)">Task 3</button>
+    <button onclick="chooseTask(4)">Task 4</button>
+    <button onclick="chooseTask(5)">Task 5</button>
+
+    <script>
+        function chooseTask(taskNumber) {
+            const tasks = {
+                1: {
+                    deceasedInfo: {
+                        name: "Brian Proud",
+                        sin: "*** *** 123",
+                        dateOfDeath: "2023-07-05"
+                    },
+                    userLevel: 2,
+                    racUserName: "Austin Holmes"
+                },
+                2: {
+                    deceasedInfo: {
+                        name: "Charles Jackson",
+                        sin: "*** *** 234",
+                        dateOfDeath: "2023-12-07"
+                    },
+                    userLevel: 3,
+                    legalRepresentative: {
+                        name: "Hugh Jackson",
+                        address: "20 Murphy Ave<br>Ottawa, Ontario K2J 1C9<br>Canada"
+                    },
+                    racUserName: "Hugh Jackson"
+                },
+                3: {
+                    deceasedInfo: {
+                        name: "Patricia William",
+                        sin: "*** *** 345",
+                        dateOfDeath: "2023-08-31"
+                    },
+                    userLevel: 2,
+                    racUserName: "Benedict Smith"
+                },
+                4: {
+                    deceasedInfo: {
+                        name: "Bill Miller",
+                        sin: "*** *** 456",
+                        dateOfDeath: "2023-04-01"
+                    },
+                    userLevel: 3,
+                    legalRepresentative: {
+                        name: "John Miller",
+                        address: "3330 Lanark Dr.<br>Lanark ON K6V 1D7<br>Canada"
+                    },
+                    racUserName: "John Miller"
+
+                },
+                5: {
+                    deceasedInfo: {
+                        name: "Greg Macdonald",
+                        sin: "*** *** 567",
+                        dateOfDeath: "2023-02-02"
+                    },
+                    userLevel: 3,
+                    legalRepresentative: {
+                        name: "Nancy Macdonald",
+                        address: "28 Chester St<br>Ottawa ON K2C 1A7<br>Canada"
+                    },
+                    racUserName: "Nancy Macdonald" 
+
+                }
+            };
+
+            // Store the selected task's data in sessionStorage
+            sessionStorage.setItem("selectedTask", JSON.stringify(tasks[taskNumber]));
+
+            // Redirect to main index page
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
