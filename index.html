@@ -96,7 +96,7 @@
                 </div>
             </section>
             
-            <section class="step" id="step-1">
+            <section class="step active" id="step-1">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -550,7 +550,7 @@
                 </div>
             </section>
 
-            <section class="step active" id="step-4">
+            <section class="step" id="step-4">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -587,8 +587,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <br>
-                            <p>If you have already submitted any of the above documents, you do not need to re-submit them. If you submitted electronically, you will be asked to provide the case or reference number.</p>
+                            
                         </div>
                         <fieldset id="s4q1-fieldset" required>
                             <legend class="required-label">
@@ -599,7 +598,7 @@
                                 <label for="s4q1-op1"></label>
                             </div>
                             <div class="group">
-                                <input type="radio" id="s4q1-op2" name="s4q1" value="No">
+                                <input type="radio" id="s4q1-op2" name="s4q1" value="No" data-toggle="s4q4-fieldset">
                                 <label for="s4q1-op2"></label>
                             </div>
                         </fieldset>
@@ -615,14 +614,14 @@
                                 <label for="s4q2-op2"></label>
                             </div>
                         </fieldset>
-                        <fieldset class="hidden" id="s4q3-fieldset" required>
+                        <fieldset class="hidden" id="s4q3-fieldset">
                             <label for="s4q3-field">Provide the reference/case number(s) associated to your submission</label>
                             <span>Separate reference/case numbers using a comma.</span><br>
                             <input class="half-width" type="text" id="s4q3-field" name="s4q3">
                         </fieldset>
                         <fieldset class="hidden" id="s4q4-fieldset" required>
                             <legend class="required-label" for="s4q3-field">Upload documents to support your request</legend>
-                            <span>Using the list above, attach any documents that have not yet been submitted.</span><br>
+                            
                             <table id="tb-upload-doc" class="table dynamic-table" cellpadding="0" cellspacing="0" required>
                                 <thead>
                                     <tr>
@@ -703,12 +702,12 @@
                 <div class="step-content">
                     <div class="container">
 
-                    <form id="step-6-form">
+                    <form id="step-5-form">
                         <div class="required">Fields marked with asterisk (<span class="ast">*</span>) are required.</div>
-                        <div id="s6-review-container">
+                        <div id="s5-review-container">
                           
                         </div>
-                        <fieldset id="s6q1-fieldset" required>
+                        <fieldset id="s5q1-fieldset" required>
                             <legend class="required-label">
                                 Declaration
                             </legend>

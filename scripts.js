@@ -183,6 +183,10 @@ class Step2Handler {
     }
     populateDeceasedPanel(){
 
+        
+        var shownData = this.deceasedIndivid;
+        console.log(shownData.address)
+
         new PanelObj({
             container: this.deceasedtpPanelContainer,
             title: "Deceased individual’s information on file",
@@ -348,13 +352,13 @@ class Step4Handler {
         this.documentsTable = new TableObj("tb-upload-doc");
         this.uploadDocLightbox = new FormLightbox(document.getElementById("uploaddoc-lightbox"));
 
-        this.browseFileButton = document.getElementById("s5-browsebtn");
-        this.browseWindow = document.getElementById("s5-browsewind");
+        this.browseFileButton = document.getElementById("s4-browsebtn");
+        this.browseWindow = document.getElementById("s4-browsewind");
         this.fileList = document.querySelectorAll('.file-item');
 
-        this.fileNameDisplay = document.getElementById("s5-filename-display");
-        this.hiddenFileInput = document.getElementById("s5-filename");
-        this.hiddenFileSize = document.getElementById("s5-size");
+        this.fileNameDisplay = document.getElementById("s4-filename-display");
+        this.hiddenFileInput = document.getElementById("s4-filename");
+        this.hiddenFileSize = document.getElementById("s4-size");
         
 
         if(!this.browseFileButton) return; 
@@ -410,10 +414,10 @@ class Step4Handler {
         // Fill form with existing row data
         this.uploadDocLightbox.populateForm(rowData);
          // Manually update filename span
-        if (rowData["s5-filename"]) {
-            const filenameDisplay = document.getElementById("s5-filename-display");
+        if (rowData["s4-filename"]) {
+            const filenameDisplay = document.getElementById("s4-filename-display");
         if (filenameDisplay) {
-            filenameDisplay.textContent = rowData["s5-filename"];
+            filenameDisplay.textContent = rowData["s4-filename"];
         }
     }
 
@@ -425,8 +429,8 @@ class Step4Handler {
         const editIndex = this.uploadDocLightbox.getEditIndex();
         
 
-        let fileSize = parseInt(formData["s5-size"], 10) || 0;
-        formData["s5-size"] = fileSize < 1024 ? `${fileSize} KB` : `${(fileSize / 1024).toFixed(2)} MB`;
+        let fileSize = parseInt(formData["s4-size"], 10) || 0;
+        formData["s4-size"] = fileSize < 1024 ? `${fileSize} KB` : `${(fileSize / 1024).toFixed(2)} MB`;
     
         if (editIndex !== null && editIndex !== undefined && editIndex !== "") {
             this.documentsTable.rows[editIndex] = formData;
@@ -442,7 +446,7 @@ class Step4Handler {
 
     calculateTotalFileSize() {
         let totalSize = this.documentsTable.rows.reduce((sum, row) => {
-            let size = parseInt(row["s5-size"], 10) || 0; // Ensure size is numeric
+            let size = parseInt(row["s4-size"], 10) || 0; // Ensure size is numeric
             return sum + size;
         }, 0);
     
@@ -461,7 +465,7 @@ class Step4Handler {
 class Step5Handler {
     constructor(stepper) {
         this.stepper = stepper;
-        this.reviewContainer = document.getElementById("s6-review-container");
+        this.reviewContainer = document.getElementById("s5-review-container");
         this.submitBtn = document.getElementById("appsubmit-btn");
         this.populateReview();
 
@@ -516,7 +520,7 @@ class Step5Handler {
                subTableData = {
                    title: "Attachments",
                    headers: ["Name", "Description", "File Size"],
-                   columns: ["s5-filename", "s5-desc", "s5-size"],
+                   columns: ["s4-filename", "s4-desc", "s4-size"],
                    rows: data["uploadedDocuments"] || [] // Ensure it's always an array
                };
                delete data["uploadedDocuments"];
