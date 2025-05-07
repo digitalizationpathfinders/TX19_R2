@@ -97,14 +97,23 @@ class Stepper {
     storeData(stepNum) {
         const stepForm = document.querySelector(`#step-${stepNum}-form`);
         let dataObj = {};
-    
+        const checkArr = [];
         if (stepForm) {
             stepForm.querySelectorAll("input, select, textarea").forEach(input => {
-                if (input.type === "radio" || input.type === "checkbox") {
+               
+                if (input.type === "radio") {
                     if (input.checked) {
                         dataObj[input.name] = input.value;
                     }
-                } else {
+                } 
+                else if (input.type === "checkbox") {
+                   
+                    if (input.checked) {
+                        checkArr.push(input.value);
+                        dataObj[input.name] = checkArr;
+                    }
+                }
+                else {
                     dataObj[input.name] = input.value;
                 }
             });
@@ -183,14 +192,16 @@ class Step2Handler {
     }
     populateDeceasedPanel(){
 
-        
-        var shownData = this.deceasedIndivid;
-        console.log(shownData.address)
+        var shownData = { 
+            name: this.deceasedIndivid.name, 
+            sin: this.deceasedIndivid.sin,
+            dateOfDeath: this.deceasedIndivid.dateOfDeath
+        };
 
         new PanelObj({
             container: this.deceasedtpPanelContainer,
             title: "Deceased individual’s information on file",
-            data: this.deceasedIndivid,
+            data: shownData,
             editButton: false, 
             editIndex: null,
             reviewPanel: false,
@@ -232,7 +243,10 @@ class Step3Handler {
         if (this.userLevel === 2) {
             this.repsQuestion.classList.add("hidden");
             this.repsTableFieldset.classList.remove("hidden");
-            this.repsTableFieldset.getElementsByTagName('label')[0].innerHTML = "Provide information for the legal representative(s) of the deceased individual.";
+
+            const label = this.repsTableFieldset.querySelector('label');
+            label.childNodes[1].nodeValue = "Provide information for the legal representative(s) of the deceased individual.";
+            
             this.mailingAlert.classList.add("hidden");
             this.legalRepInfoFieldset.classList.add("hidden");
             this.legalRepAddressLBDiv.classList.remove("hidden");
@@ -307,7 +321,7 @@ class Step3Handler {
     
         const phone = phoneInput.value.trim();
         const role = roleSelect.value;
-        console.log(phone)
+        
     
         this.legalReps[0].phone = phone || null;
         this.legalReps[0].role = role || null;
@@ -359,10 +373,24 @@ class Step4Handler {
         this.fileNameDisplay = document.getElementById("s4-filename-display");
         this.hiddenFileInput = document.getElementById("s4-filename");
         this.hiddenFileSize = document.getElementById("s4-size");
+
+        this.uploadedDocsQ = document.querySelectorAll('input[name="s4q1"]');
+        this.tableLabelAsterisk = document.getElementById("s4q4-fieldset").querySelector('legend span');
         
 
         if(!this.browseFileButton) return; 
 
+        this.uploadedDocsQ.forEach(radio => {
+
+            radio.addEventListener('change', () => {
+              if (radio.value == 'Yes') {
+                this.tableLabelAsterisk.classList.add('hidden');
+              } else {
+                this.tableLabelAsterisk.classList.remove('hidden');
+              }
+            });
+          });
+       
 
         this.browseFileButton.addEventListener("click", () => {
             this.browseWindow.classList.remove('hidden');
@@ -491,7 +519,7 @@ class Step5Handler {
     
         const steps = [
             { stepNum: 1, title: "Pre-screening", storageKey: "stepData_1" },
-            { stepNum: 2, title: "Deceased individual’s information on file", storageKey: "deceasedInfo", labels: ["Name of deceased", "Social insurance number (SIN)", "Date of death"]  },
+            { stepNum: 2, title: "Deceased individual’s information on file", storageKey: "stepData_2" },
             { stepNum: 3, title: "Representative's information", storageKey: "stepData_3" },
             { stepNum: 4, title: "Supporting documentation", storageKey: "stepData_4" },
         ];
@@ -504,6 +532,12 @@ class Step5Handler {
            let formattedData = {};
            let subTableData = null; // Placeholder for subtable
 
+
+           if (stepNum === 2) {
+                const deceasedInfo = DataManager.getData("deceasedInfo");
+                data = deceasedInfo + data;
+                console.log(data)
+           }
            if (stepNum === 3) {
                let legalReps = DataManager.getData("legalReps") || [];
 
@@ -570,12 +604,14 @@ class Step5Handler {
         if (fieldset) {
             const legend = fieldset.closest("fieldset").querySelector("legend");
             if (legend) {
-                label = legend.textContent.trim();
+                let cleaned = legend.innerHTML.replace(/<span[^>]*>.*?<\/span>/gi, '');
+                label = cleaned.trim();
             }
         }
-
+       
         // Remove asterisks and extra spaces
-        return label.replace(/\*/g, "").trim() || name; // Default to name if no label found
+        return label.replace(/<span[^>]*>.*?<\/span>/gi, "").trim() || name; // Default to name if no label found
+   
     }
     
 }
