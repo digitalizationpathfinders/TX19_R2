@@ -519,11 +519,11 @@ class Step5Handler {
     
         const steps = [
             { stepNum: 1, title: "Pre-screening", storageKey: "stepData_1" },
-            { stepNum: 2, title: "Deceased individual’s information on file", storageKey: "stepData_2" },
+            { stepNum: 2, title: "Deceased individual’s information on file", storageKey: "stepData_2", labels: ["Name of deceased", "Social insurance number (SIN)", "Date of death"] },
             { stepNum: 3, title: "Representative's information", storageKey: "stepData_3" },
             { stepNum: 4, title: "Supporting documentation", storageKey: "stepData_4" },
         ];
-    
+        const deceasedInfo = DataManager.getData("deceasedInfo") || {};
         steps.forEach(({ stepNum, title, storageKey, labels }) => {
             let data = DataManager.getData(storageKey);
             if (!data) return; // Skip empty steps
@@ -534,19 +534,20 @@ class Step5Handler {
 
 
            if (stepNum === 2) {
-                const deceasedInfo = DataManager.getData("deceasedInfo");
-                data = deceasedInfo + data;
-                console.log(data)
+            delete deceasedInfo.address; // Remove address
+            data = { ...deceasedInfo, ...data }; // Merge deceased info first, then stepData_2 to allow stepData_2 to override if needed
            }
            if (stepNum === 3) {
                let legalReps = DataManager.getData("legalReps") || [];
 
             
                legalReps.forEach((rep, index) => {
-                formattedData["Legal Representative Name"] = rep.name || "N/A";
-                formattedData["Mailing Address"] = rep.address || "N/A";
+                formattedData["Legal representative name"] = rep.name || "N/A";
+                formattedData["Mailing address"] = deceasedInfo.address;
+                //only show address for first legal rep - no one else   
+                
                 formattedData["Role"] = rep.role || "N/A";
-                formattedData["Telephone Number"] = rep.phone || "N/A";
+                formattedData["Telephone number"] = rep.phone || "N/A";
 
                });
            }
@@ -562,6 +563,8 @@ class Step5Handler {
 
            if (stepNum !== 3) { // Avoid overwriting Step 3 data
                Object.keys(data).forEach((key, index) => {
+                if(stepNum === 2 && key === "address") return;
+
                    let questionLabel = labels && labels[index] ? labels[index] : this.getLabelForInput(key);
                    formattedData[questionLabel] = data[key]; // Assign label instead of raw key
                });
