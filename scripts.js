@@ -120,7 +120,7 @@ class Stepper {
         }
         if (stepNum === 3) {
             const handler = this.stepHandlers[stepNum];
-            if (handler instanceof Step3Handler && handler.userLevel === 3 && handler.legalReps.length === 1) {
+            if (handler instanceof Step3Handler && handler.userLevel === 3) {
                 handler.updateSingleLevel3Rep();
             }
         }
@@ -534,7 +534,7 @@ class Step5Handler {
 
 
            if (stepNum === 2) {
-            delete deceasedInfo.address; // Remove address
+            //delete deceasedInfo.address; // Remove address
             data = { ...deceasedInfo, ...data }; // Merge deceased info first, then stepData_2 to allow stepData_2 to override if needed
            }
            if (stepNum === 3) {
@@ -542,14 +542,18 @@ class Step5Handler {
 
             
                legalReps.forEach((rep, index) => {
-                formattedData["Legal representative name"] = rep.name || "N/A";
-                formattedData["Mailing address"] = deceasedInfo.address;
-                //only show address for first legal rep - no one else   
-                
-                formattedData["Role"] = rep.role || "N/A";
-                formattedData["Telephone number"] = rep.phone || "N/A";
+                const idx = index + 1;
+                formattedData[`Legal representative ${idx} name`] = rep.name || "N/A";
+
+                if(index === 0) {
+                    formattedData[`Legal representative ${idx} mailing address`] = deceasedInfo.address;
+                }
+
+                formattedData[`Legal representative ${idx} role`] = rep.role || "N/A";
+                formattedData[`Legal representative ${idx} telephone number`] = rep.phone || "N/A";
 
                });
+               console.log(formattedData)
            }
            else if (stepNum === 4 && data["uploadedDocuments"]) {
                subTableData = {
