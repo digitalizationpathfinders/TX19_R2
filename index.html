@@ -41,7 +41,7 @@
         </header>
         <main class="stepper">
             <h1>TX19 - Asking for a clearance certificate</h1>
-            <section class="step" id="step-0">
+            <section class="step active" id="step-0">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -96,7 +96,7 @@
                 </div>
             </section>
             
-            <section class="step active" id="step-1">
+            <section class="step" id="step-1">
                 <div class="step-header">
                     <div class="step-number">
                         <span class="step-icon material-icons">check</span>
@@ -380,7 +380,7 @@
                                 </div>
                             </fieldset>
                             <fieldset id="s2q6-fieldset" class="hidden" data-radio-group required>
-                                <legend class="required-label"> Is there an estate trust related to the deceased individual?<br><span class="sub-label">TBD</span></legend>
+                                <legend class="required-label"> Is there an estate trust related to the deceased individual?</legend>
                                 <div class="group">
                                     <input type="radio" id="s2q6-op1" name="s2q6" value="Yes" data-toggle="s2q7-fieldset">
                                     <label for="s2q6-op1"></label>
@@ -428,7 +428,8 @@
                                     <div class="line"></div>
                                 </div>
                                 <div class="alert-content">
-                                    Our records indicate that you are not a legal representative (for example, an executor, administrator, liquidator) for the deceased individual.<br>You must include the legal representative's information associated to this account before you can proceed with this request.
+                                    Our records indicate that you are not a legal representative (for example, an executor, administrator, or liquidator) for this deceased individual. 
+                                    Clearance certificates can only be mailed to a legal representative. You must provide information about the legal representative(s) to proceed with this request.  
                                 </div>
                             </div>
                             <div class="alert" id="alert-mailing">
@@ -441,7 +442,7 @@
                                     <div class="line"></div>
                                 </div>
                                 <div class="alert-content">
-                                    The clearance certificate will be mailed to the above address.
+                                    The clearance certificate will be mailed to you at the above address.
                                 </div>
                             </div>
                             
@@ -534,8 +535,8 @@
                                             </div>
                                          
                                         </div><br>
-                                        <div class="hidden" id="s3-level3-address">
-                                            <strong>The clearance certificate will be mailed to:</strong><br>
+                                        <div class="" id="s3-level3-address">
+                                            <strong>The clearance certificate will be mailed to the following address:</strong><br>
                                             <span id="s3-deceased-address"></span>
                                         </div>
                                     </form>

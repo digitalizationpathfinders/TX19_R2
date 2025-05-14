@@ -238,6 +238,8 @@ class Step3Handler {
     renderInitialView() {
         
         this.repPanelContainer.innerHTML = "";
+        this.legalRepAddressLBSpan.innerHTML = this.deceasedAddress;
+
 
         // If userLevel 2 (no preloaded legal rep)
         if (this.userLevel === 2) {
@@ -249,8 +251,7 @@ class Step3Handler {
             
             this.mailingAlert.classList.add("hidden");
             this.legalRepInfoFieldset.classList.add("hidden");
-            this.legalRepAddressLBDiv.classList.remove("hidden");
-            this.legalRepAddressLBSpan.innerHTML = this.deceasedAddress;
+            //this.legalRepAddressLBDiv.classList.remove("hidden");
         }
 
         // If userLevel 3 and rep exists
@@ -260,6 +261,7 @@ class Step3Handler {
             this.renderPanel(this.legalReps[0], "Legal representative");
             this.repsQuestion.classList.remove("hidden");
             this.noRepsAlert.classList.add("hidden");
+            this.legalRepAddressLBDiv.querySelector('strong').innerHTML = "A copy of the clearance certificate will be mailed to the following address:";    
            
         }
     
@@ -277,11 +279,7 @@ class Step3Handler {
                 this.lightbox.populateForm(e.detail.rowData);
                 this.lightbox.openLightbox();
 
-                if (this.userLevel === 2 && parseInt(e.detail.index) === 0) {
-                    this.legalRepAddressLBDiv.classList.remove("hidden");
-                } else {
-                    this.legalRepAddressLBDiv.classList.add("hidden");
-                }
+        
             
             }
         });
@@ -291,6 +289,11 @@ class Step3Handler {
 
             if (this.userLevel === 2 && this.repsTable.rows.length === 0) {
                 this.legalRepAddressLBDiv.classList.remove("hidden");
+
+            }
+            if(this.repsTable.rows.length === 0){
+                this.legalRepAddressLBDiv.querySelector('strong').innerHTML = "The clearance certificate will be mailed to the following address:";    
+
             }
         });
 
@@ -344,8 +347,12 @@ class Step3Handler {
     handlePostRepAddUI() {
         if (this.userLevel === 2 && this.legalReps.length > 0) {
             this.noRepsAlert.classList.add("hidden");
-            this.legalRepAddressLBDiv.classList.add("hidden");
-        }
+            this.legalRepAddressLBDiv.querySelector('strong').innerHTML = "A copy of the clearance certificate will be mailed to the following address:";    
+
+          
+            }
+    
+      
     }
 
     renderPanel(data, title) {
@@ -542,15 +549,27 @@ class Step5Handler {
 
             
                legalReps.forEach((rep, index) => {
-                const idx = index + 1;
-                formattedData[`Legal representative ${idx} name`] = rep.name || "N/A";
 
-                if(index === 0) {
-                    formattedData[`Legal representative ${idx} mailing address`] = deceasedInfo.address;
+                if(legalReps.length === 1) {
+                    console.log("only 1 rep")
+                    formattedData["Legal representative name"] = rep.name || "N/A";
+                    formattedData["Legal representative mailing address"] = deceasedInfo.address;
+                    formattedData[`Legal representative role`] = rep.role || "N/A";
+                    formattedData["Legal representative telephone number"] = rep.phone || "N/A";
                 }
-
-                formattedData[`Legal representative ${idx} role`] = rep.role || "N/A";
-                formattedData[`Legal representative ${idx} telephone number`] = rep.phone || "N/A";
+                else {
+                    console.log("multiple reps")
+                    const idx = index + 1;
+                    formattedData[`Legal representative ${idx} name`] = rep.name || "N/A";
+    
+                    if(index === 0) {
+                        formattedData[`Legal representative ${idx} mailing address`] = deceasedInfo.address;
+                    }
+    
+                    formattedData[`Legal representative ${idx} role`] = rep.role || "N/A";
+                    formattedData[`Legal representative ${idx} telephone number`] = rep.phone || "N/A";
+                }
+                
 
                });
                console.log(formattedData)
