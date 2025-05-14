@@ -89,6 +89,7 @@
 
             // Store the selected task's data in sessionStorage
             sessionStorage.setItem("selectedTask", JSON.stringify(tasks[taskNumber]));
+            sessionStorage.setItem("taskNum", taskNumber);
 
             // Redirect to main index page
             window.location.href = "index.html";

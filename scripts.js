@@ -376,6 +376,9 @@ class Step4Handler {
         this.browseFileButton = document.getElementById("s4-browsebtn");
         this.browseWindow = document.getElementById("s4-browsewind");
         this.fileList = document.querySelectorAll('.file-item');
+        if(DataManager.getData("taskNum") === 4){
+            this.fileList[0].classList.add("hidden");
+        }
 
         this.fileNameDisplay = document.getElementById("s4-filename-display");
         this.hiddenFileInput = document.getElementById("s4-filename");
